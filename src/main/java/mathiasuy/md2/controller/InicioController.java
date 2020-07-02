@@ -27,6 +27,7 @@ public class InicioController implements Initializable  {
     @FXML TextField txtPares;
     @FXML TextField txtFactoresPrimos;
     @FXML TextField txtResMcd;
+    @FXML TextField txtOrden;
     @FXML TextField txtResMcm;
     @FXML CheckBox chkBox;
     @FXML TextField txtN;
@@ -111,6 +112,25 @@ public class InicioController implements Initializable  {
 		chkBox.setSelected(!raicesPrimitivas.isEmpty());
 		txtGeneradores.setText(converToStringList(raicesPrimitivas));
 		txtResCantidadGeneradores.setText(String.valueOf(raicesPrimitivas.size()));
+	}
+	
+	@FXML public void ordenEnN() {
+		Integer n = Integer.valueOf(txtN.getText().trim());
+		List<Integer> invertibles = Calc.coprimosMenores(n);
+		lstOrden.getItems().clear();
+		for (Integer num : invertibles) {
+			ordenEnN(num, n);
+		}
+	}
+	
+	private void ordenEnN(Integer num, Integer n) {
+		int i=0;
+		do {
+			i++;
+		} while (Math.pow(num, i)%n != 1 && i < 1000);	
+		if (Math.pow(num, i)%n == 1) {
+			lstOrden.getItems().add(num + "^" + i + " = " + Math.pow(num, i) + " = " + Math.pow(num, i)%n + " mod(" + n + ")");
+		}
 	}
 
 	private String converToStringList(List<Integer> lista) {
