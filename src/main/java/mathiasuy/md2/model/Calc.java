@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Calc {
 
+	public static Integer MAX_POW = 1000;
+	
 	/**
 	 * Calcula el mcd de todos los elementos de la lista
 	 * @param items
@@ -45,7 +48,52 @@ public class Calc {
 		}
 	}
 	
+//	/**
+//	 * Resolusión utilizando elalgoritmo de euclides
+//	 * @param a
+//	 * @param b
+//	 * @return
+//	 */
+//	public static Integer mcm(Integer a, Integer b) {
+//		Map<Integer, Integer> factA = interpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(a));
+//		Map<Integer, Integer> factB = interpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(b));
+//		
+//		
+//		for (Entry<Integer, Integer> entry : factA.entrySet()) {
+//			if (factB.containsKey(entry.getKey()) && factB.get(entry.getKey()).equals(entry.getValue())) {
+//				//numeros comunes
+//			}
+//		}
+//		
+//	}
 	
+	public static List<Integer> coprimosMenores(Integer n) {
+		List<Integer> invertibles = new ArrayList<Integer>();
+		
+		invertibles.add(1);
+		for (int i = 2; i < n; i++) {
+			if (mcd(i,n)==1) {
+				invertibles.add(i);
+			}
+		}
+		
+		return invertibles;
+	}
+	
+	public static List<Integer> generadosPor(Integer g, Integer n, List<Integer> coprimosMenores) {
+		
+		List<Integer> encontrados = new ArrayList<Integer>();
+				
+		for (Integer item : coprimosMenores) {
+			for ( int i = 1; i <= MAX_POW; i++) {
+				if (Math.pow(item, i)%n == 1) {
+					encontrados.add(item);
+				}
+			}
+		}
+		
+		return encontrados;
+	}
 	
 	/**
 	 * Se le pasa un valor entero superior a 1 y devuelve una lista de factores primos

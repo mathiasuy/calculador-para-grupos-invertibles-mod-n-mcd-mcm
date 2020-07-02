@@ -2,6 +2,7 @@ package mathiasuy.md2.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,7 +39,7 @@ public class InicioController implements Initializable  {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		chkBox.setDisable(true);
 	}
 
 	public void setData(){
@@ -46,8 +47,10 @@ public class InicioController implements Initializable  {
 	}
 
 	@FXML public void calcularN() {
+		Integer n = Integer.valueOf(txtN.getText().trim());
 
-		List<Integer> primos = Calc.descomponerEnFactoresPrimos(Integer.valueOf(txtN.getText().trim()));
+		//// FACTORES PIRMOS ////
+		List<Integer> primos = Calc.descomponerEnFactoresPrimos(n);
 		Map<Integer, Integer> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
 		
 		String factores = "";
@@ -56,15 +59,73 @@ public class InicioController implements Initializable  {
 			factores += " " + entry.getKey() + "^"+ entry.getValue() + ", ";
 			verif *= Math.pow(entry.getKey(),entry.getValue());
 		}
-		if (verif.equals(Double.valueOf(txtN.getText().trim()))) {
+		if (verif.equals(Double.valueOf(n))) {
 			txtFactoresPrimos.setText(factores);
 		}else {
 			txtFactoresPrimos.setText("Hubo un error en el calculo");
 		}
 		
+		///// CONJUNTO DE INVERTIBLES MOD N /////////
 		
+		List<Integer> invertibles = Calc.coprimosMenores(n);
+		txtResConjunto.setText(converToStringList(invertibles));
+		
+		///// CALCULO DE PHI ////////
+		txtResPhi.setText(String.valueOf(invertibles.size()));
+		
+		
+		/////// VER SI ES GENERADOR /////////
+		lstOrden.getItems().clear();
+		
+		chkBox.setDisable(false);
+		Collections.sort(invertibles);
+		List<Integer> raicesPrimitivas = new ArrayList<Integer>();
+					List<Integer> encontrados = new ArrayList<Integer>();
+			
+		for (int i = 1; i < invertibles.size(); i++) {
+			List<String> items = new ArrayList<String>();
+			int cantGenerados = 0;
+			for (int k = 1; k < invertibles.size(); k++) { //evito el 1
+				int pot = 1;
+				while ( pot < 100 && Math.pow(invertibles.get(i), pot) % n != invertibles.get(k)) {
+					pot++;
+				}
+				if ( Math.pow(invertibles.get(i), pot) % n == invertibles.get(k)) {
+					cantGenerados++;
+					items.add(
+							invertibles.get(i) + "^" + pot + " = " + 
+									Math.pow(invertibles.get(i), pot)	+ " = " + 
+									Math.pow(invertibles.get(i), pot)%n + " mod(" + n + ")"
+							);
+					encontrados.add(invertibles.get(k));
+				}
+				
+			}
+			if (cantGenerados == invertibles.size()-1) {
+				raicesPrimitivas.add(invertibles.get(i));
+				lstOrden.getItems().add("--------------------");
+				lstOrden.getItems().addAll(items);
+				lstOrden.getItems().add("--------------------");
+			}
+		}
+		chkBox.setSelected(!raicesPrimitivas.isEmpty());
+		txtGeneradores.setText(converToStringList(raicesPrimitivas));
+		txtResCantidadGeneradores.setText(String.valueOf(raicesPrimitivas.size()));
 	}
 
+	private String converToStringList(List<Integer> lista) {
+		String res = "{ ";
+		if (!lista.isEmpty()) {
+			for (int i = 0; i < lista.size()-1; i++) {
+				res += lista.get(i) + ", ";
+			}
+			res += lista.get(lista.size()-1) + " }";
+		}else {
+			res += " }";
+		}
+		return res;
+	}
+	
 	@FXML public void calcularMcdMcm() {
 		String numeros = txtPares.getText();
 		List<Integer> nums = new ArrayList<Integer>();
