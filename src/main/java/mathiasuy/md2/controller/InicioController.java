@@ -3,6 +3,8 @@ package mathiasuy.md2.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,6 +46,22 @@ public class InicioController implements Initializable  {
 	}
 
 	@FXML public void calcularN() {
+
+		List<Integer> primos = Calc.descomponerEnFactoresPrimos(Integer.valueOf(txtN.getText().trim()));
+		Map<Integer, Integer> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
+		
+		String factores = "";
+		Double verif = 1.0;
+		for (Entry<Integer, Integer> entry : primosPotencias.entrySet()) {
+			factores += " " + entry.getKey() + "^"+ entry.getValue() + ", ";
+			verif *= Math.pow(entry.getKey(),entry.getValue());
+		}
+		if (verif.equals(Double.valueOf(txtN.getText().trim()))) {
+			txtFactoresPrimos.setText(factores);
+		}else {
+			txtFactoresPrimos.setText("Hubo un error en el calculo");
+		}
+		
 		
 	}
 
@@ -51,12 +69,11 @@ public class InicioController implements Initializable  {
 		String numeros = txtPares.getText();
 		List<Integer> nums = new ArrayList<Integer>();
 		while (numeros.contains(",")) {
-			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length())));
+			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length()).trim()));
 			numeros = numeros.substring(0, numeros.lastIndexOf(','));
 		}
-		nums.add(Integer.valueOf(numeros));
-		if (!nums.isEmpty()) {
-			txtFactoresPrimos.setText(String.valueOf(Calc.descomponerEnFactoresPrimos(nums.get(0))));
+		nums.add(Integer.valueOf(numeros.trim()));
+		if (!nums.isEmpty()) {			
 			txtResMcd.setText(String.valueOf(Calc.mcd(nums)));
 		}
 	} 

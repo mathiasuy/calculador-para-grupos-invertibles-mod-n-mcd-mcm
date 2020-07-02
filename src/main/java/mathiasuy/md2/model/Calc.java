@@ -2,7 +2,9 @@ package mathiasuy.md2.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Calc {
 
@@ -43,6 +45,8 @@ public class Calc {
 		}
 	}
 	
+	
+	
 	/**
 	 * Se le pasa un valor entero superior a 1 y devuelve una lista de factores primos
 	 * en los que ha descompuesto el número. 
@@ -64,7 +68,23 @@ public class Calc {
 			// Si no es divisible, se pasa al posible siguiente factor.
 			factor++;
 		}
+		Collections.sort(factores);
 		return factores;
+	}
+	
+	public static Map<Integer, Integer> interpretarDescomponerEnFactoresPrimos(List<Integer> lista)
+	{
+		Map<Integer, Integer> ret = new HashMap<Integer, Integer>();//primer elemento el numero, segundo su potencia
+		
+		for (Integer item : lista) {
+			if (ret.containsKey(item)) {
+				ret.put(item,ret.get(item)+1);
+			}else {
+				ret.put(item,1);
+			}
+		}
+
+		return ret;
 	}	
 	
 	
