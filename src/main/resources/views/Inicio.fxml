@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="697.0" prefWidth="710.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mathiasuy.md2.controller.InicioController">
+   <stylesheets>
+      <URL value="@bootstrapfx.css" />
+      <URL value="@custom.css" />
+   </stylesheets>
+   <children>
+      <Button layoutX="317.0" layoutY="94.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="104.0" text="Cálculos!" />
+      <TextField fx:id="txtResConjunto" layoutX="224.0" layoutY="186.0" prefHeight="23.0" prefWidth="463.0" />
+      <Label layoutX="18.0" layoutY="190.0" text="El conjunto U(n) está compuesto por:" />
+      <Label layoutX="18.0" layoutY="238.0" text="Los generadores son:" />
+      <TextArea fx:id="txtConsola" layoutX="18.0" layoutY="476.0" prefHeight="207.0" prefWidth="674.0" />
+      <Label layoutX="18.0" layoutY="453.0" text="Consola:" />
+      <TextField fx:id="txtGeneradores" layoutX="156.0" layoutY="234.0" prefHeight="23.0" prefWidth="531.0" />
+      <TextField fx:id="txtPares" layoutX="16.0" layoutY="55.0" prefHeight="23.0" prefWidth="348.0" />
+      <Button layoutX="387.0" layoutY="55.0" mnemonicParsing="false" text="Calcular!" />
+      <TextField fx:id="txtResMcd" layoutX="519.0" layoutY="55.0" prefHeight="23.0" prefWidth="172.0" />
+      <TextField fx:id="txtResMcm" layoutX="519.0" layoutY="86.0" prefHeight="23.0" prefWidth="172.0" />
+      <Label layoutX="469.0" layoutY="59.0" prefHeight="15.0" prefWidth="34.0" text="MCD" />
+      <Label layoutX="469.0" layoutY="90.0" prefHeight="15.0" prefWidth="34.0" text="MCM" />
+      <CheckBox layoutX="376.0" layoutY="139.0" mnemonicParsing="false" text="Es cíclico" />
+      <TextField fx:id="txtN" layoutX="19.0" layoutY="94.0" prefHeight="23.0" prefWidth="287.0" />
+      <TextField fx:id="txtResPhi" layoutX="519.0" layoutY="135.0" prefHeight="23.0" prefWidth="172.0" />
+      <Label layoutX="18.0" layoutY="275.0" prefHeight="15.0" prefWidth="169.0" text="El orden de cada elemento es:" />
+      <TextField fx:id="txtResCantidadGeneradores" layoutX="209.0" layoutY="135.0" prefHeight="23.0" prefWidth="137.0" />
+      <Label layoutX="18.0" layoutY="139.0" text="La cantidad de generadores es:" />
+      <ListView fx:id="lstOrden" layoutX="195.0" layoutY="275.0" prefHeight="187.0" prefWidth="500.0" />
+      <Label layoutX="475.0" layoutY="139.0" prefHeight="15.0" prefWidth="34.0" text="PHI" />
+   </children>
+</AnchorPane>
