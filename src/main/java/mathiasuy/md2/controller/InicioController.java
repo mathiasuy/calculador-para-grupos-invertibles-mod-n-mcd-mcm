@@ -22,6 +22,7 @@ public class InicioController implements Initializable  {
     @FXML TextArea txtConsola;
     @FXML TextField txtGeneradores;
     @FXML TextField txtPares;
+    @FXML TextField txtFactoresPrimos;
     @FXML TextField txtResMcd;
     @FXML TextField txtResMcm;
     @FXML CheckBox chkBox;
@@ -49,18 +50,15 @@ public class InicioController implements Initializable  {
 	@FXML public void calcularMcdMcm() {
 		String numeros = txtPares.getText();
 		List<Integer> nums = new ArrayList<Integer>();
-		numeros.lastIndexOf(',');
 		while (numeros.contains(",")) {
 			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length())));
 			numeros = numeros.substring(0, numeros.lastIndexOf(','));
 		}
 		nums.add(Integer.valueOf(numeros));
-		
-		
-		txtResMcd.setText(String.valueOf(Calc.mcd(nums)));
-		
-//		Integer.valueOf(txtPares.getText())
-//		Calc.mcd()
+		if (!nums.isEmpty()) {
+			txtFactoresPrimos.setText(String.valueOf(Calc.descomponerEnFactoresPrimos(nums.get(0))));
+			txtResMcd.setText(String.valueOf(Calc.mcd(nums)));
+		}
 	} 
 	 
 	
