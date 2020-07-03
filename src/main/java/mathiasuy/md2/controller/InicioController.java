@@ -15,17 +15,20 @@ import org.apache.logging.log4j.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import mathiasuy.md2.configuration.Properties;
 import mathiasuy.md2.model.Calc;
+import mathiasuy.md2.model.RaizPrmitiva;
 
 public class InicioController implements Initializable  {
 
     @FXML private TextField txtResConjunto;
     @FXML private TextField txtGeneradores;
     @FXML private TextField txtPares;
+    @FXML private TextField txtRaiz;
     @FXML private TextField txtFactoresPrimos;
     @FXML private TextField txtResMcd;
     @FXML private TextField txtResMcm;
@@ -33,8 +36,11 @@ public class InicioController implements Initializable  {
     @FXML private TextField txtN;
     @FXML private TextField txtResPhi;
     @FXML private TextField txtResCantidadGeneradores;
+    @FXML private TextField txtResDivisores;
+    @FXML private TextField txtResRaicesPrimitivas;
     @FXML private ListView<String> lstConsole;
     @FXML private ListView<String> lstOrden;
+    @FXML private Label lblEsRaiz;
 	
 	private static Logger logger = LogManager.getLogger(InicioController.class);
 		
@@ -46,11 +52,14 @@ public class InicioController implements Initializable  {
 	    txtFactoresPrimos.setEditable(false);
 	    txtResMcd.setEditable(false);
 	    txtResMcm.setEditable(false);
+	    txtResRaicesPrimitivas.setEditable(false);
 	    chkBox.setStyle("-fx-opacity: 1");
 	    chkBox.setDisable(true);
+	    txtResDivisores.setEditable(false);
 	    txtResPhi.setEditable(false);
 	    txtResCantidadGeneradores.setEditable(false);		
 	    Calc.setInicioController(this);
+	    RaizPrmitiva.setInicioController(this);
 	}
 
 	public void appendLog(String text){
@@ -126,6 +135,10 @@ public class InicioController implements Initializable  {
 		chkBox.setSelected(!raicesPrimitivas.isEmpty());
 		txtGeneradores.setText(converToStringList(raicesPrimitivas));
 		txtResCantidadGeneradores.setText(String.valueOf(raicesPrimitivas.size()));
+		
+		txtResDivisores.setText(String.valueOf(RaizPrmitiva.getDivisoresPrimos(invertibles.size())));
+		txtResRaicesPrimitivas.setText(String.valueOf(RaizPrmitiva.hallarRaices(n)));
+		
 	}
 	
 	@FXML public void ordenEnN() {
@@ -135,6 +148,12 @@ public class InicioController implements Initializable  {
 		for (Integer num : invertibles) {
 			ordenEnN(num, n);
 		}
+	}
+	
+	@FXML public void verSiEsRaiz() {
+		Integer n = Integer.valueOf(txtN.getText().trim());
+		Integer num = Integer.valueOf(txtRaiz.getText());
+		lblEsRaiz.setText(num+" " + (RaizPrmitiva.esRaiz(num,n)?"Es raíz":"No es raíz") + " de U("+n+")");
 	}
 	
 	private void ordenEnN(Integer num, Integer n) {
