@@ -15,31 +15,31 @@
       <URL value="@custom.css" />
    </stylesheets>
    <children>
-      <Button layoutX="134.0" layoutY="150.0" mnemonicParsing="false" onAction="#calcularN" prefHeight="23.0" prefWidth="104.0" text="Cálculos!" />
-      <TextField fx:id="txtResConjunto" layoutX="223.0" layoutY="247.0" prefHeight="23.0" prefWidth="463.0" />
-      <Label layoutX="17.0" layoutY="251.0" text="El conjunto U(n) está compuesto por:" />
+      <Button layoutX="182.0" layoutY="67.0" mnemonicParsing="false" onAction="#calcularN" prefHeight="23.0" prefWidth="104.0" text="Cálculos!" />
+      <TextField fx:id="txtResConjunto" layoutX="12.0" layoutY="255.0" prefHeight="25.0" prefWidth="674.0" />
+      <Label layoutX="20.0" layoutY="230.0" text="El conjunto U(n) está compuesto por:" />
       <Label layoutX="17.0" layoutY="299.0" text="Los generadores son:" />
-      <TextArea fx:id="txtConsola" layoutX="17.0" layoutY="537.0" prefHeight="207.0" prefWidth="674.0" />
+      <ListView fx:id="lstConsole" layoutX="17.0" layoutY="537.0" prefHeight="207.0" prefWidth="674.0" />
       <Label layoutX="17.0" layoutY="514.0" text="Consola:" />
       <TextField fx:id="txtGeneradores" layoutX="155.0" layoutY="295.0" prefHeight="23.0" prefWidth="531.0" />
-      <TextField fx:id="txtPares" layoutX="20.0" layoutY="36.0" prefHeight="23.0" prefWidth="348.0" />
-      <Button layoutX="390.0" layoutY="36.0" mnemonicParsing="false" onAction="#calcularMcdMcm" text="Calcular!" />
+      <TextField fx:id="txtPares" layoutX="20.0" layoutY="24.0" prefHeight="23.0" prefWidth="348.0" />
+      <Button layoutX="390.0" layoutY="24.0" mnemonicParsing="false" onAction="#calcularMcdMcm" text="Calcular!" />
       <TextField fx:id="txtResMcd" layoutX="524.0" layoutY="27.0" prefHeight="23.0" prefWidth="172.0" />
       <TextField fx:id="txtResMcm" layoutX="524.0" layoutY="58.0" prefHeight="23.0" prefWidth="172.0" />
       <Label layoutX="474.0" layoutY="31.0" prefHeight="15.0" prefWidth="34.0" text="MCD" />
       <Label layoutX="474.0" layoutY="62.0" prefHeight="15.0" prefWidth="34.0" text="MCM" />
-      <CheckBox fx:id="chkBox" layoutX="375.0" layoutY="200.0" mnemonicParsing="false" text="Es cíclico" />
-      <TextField fx:id="txtN" layoutX="19.0" layoutY="150.0" prefHeight="25.0" prefWidth="104.0" />
-      <TextField fx:id="txtResPhi" layoutX="518.0" layoutY="196.0" prefHeight="23.0" prefWidth="172.0" />
+      <CheckBox fx:id="chkBox" layoutX="618.0" layoutY="188.0" mnemonicParsing="false" text="Es cíclico" />
+      <TextField fx:id="txtN" layoutX="22.0" layoutY="67.0" prefHeight="25.0" prefWidth="137.0" />
+      <TextField fx:id="txtResPhi" layoutX="524.0" layoutY="155.0" prefHeight="23.0" prefWidth="172.0" />
       <Label layoutX="17.0" layoutY="336.0" prefHeight="15.0" prefWidth="169.0" text="El orden de cada elemento es:" />
       <TextField fx:id="txtResCantidadGeneradores" layoutX="208.0" layoutY="196.0" prefHeight="23.0" prefWidth="137.0" />
       <Label layoutX="17.0" layoutY="200.0" text="La cantidad de generadores es:" />
       <ListView fx:id="lstOrden" layoutX="194.0" layoutY="336.0" prefHeight="187.0" prefWidth="500.0" />
-      <Label layoutX="474.0" layoutY="200.0" prefHeight="15.0" prefWidth="34.0" text="PHI" />
-      <TextField fx:id="txtFactoresPrimos" layoutX="212.0" layoutY="98.0" prefHeight="25.0" prefWidth="485.0" />
-      <Label layoutX="7.0" layoutY="102.0" text="Descomposicion en factores primos" />
-      <Button layoutX="250.0" layoutY="150.0" mnemonicParsing="false" onAction="#ordenEnN" prefHeight="23.0" prefWidth="104.0" text="Orden en (n)" />
-      <Label layoutX="390.0" layoutY="142.0" prefHeight="17.0" prefWidth="302.0" text="Si G es cíclico con n elementos, " />
-      <Label layoutX="390.0" layoutY="167.0" prefHeight="17.0" prefWidth="302.0" text="lacantidad de generadores que tiene es:" />
+      <Label layoutX="474.0" layoutY="159.0" prefHeight="15.0" prefWidth="34.0" text="PHI" />
+      <TextField fx:id="txtFactoresPrimos" layoutX="212.0" layoutY="107.0" prefHeight="25.0" prefWidth="485.0" />
+      <Label layoutX="5.0" layoutY="111.0" text="Descomposicion en factores primos" />
+      <Button layoutX="303.0" layoutY="67.0" mnemonicParsing="false" onAction="#ordenEnN" prefHeight="23.0" prefWidth="104.0" text="Orden en (n)" />
+      <Label layoutX="20.0" layoutY="159.0" prefHeight="17.0" prefWidth="302.0" text="Si G es cíclico con n elementos, " />
+      <Label layoutX="204.0" layoutY="159.0" prefHeight="17.0" prefWidth="302.0" text="lacantidad de generadores que tiene es:" />
    </children>
 </AnchorPane>

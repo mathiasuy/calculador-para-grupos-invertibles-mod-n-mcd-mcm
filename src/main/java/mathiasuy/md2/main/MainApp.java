@@ -33,9 +33,6 @@ public class MainApp extends Application implements Runnable {
 			
 			Scene scene = new Scene(panelPane);
 			primaryStage.setScene(scene);
-			primaryStage.setAlwaysOnTop(true);
-			InicioController panelController = (InicioController)loader.getController();
-			panelController.setData();
 			primaryStage.show();
 			
 		} catch (IOException e) {

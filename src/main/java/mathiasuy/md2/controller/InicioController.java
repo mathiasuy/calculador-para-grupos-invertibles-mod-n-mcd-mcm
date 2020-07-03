@@ -3,6 +3,7 @@ package mathiasuy.md2.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,40 +18,51 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import mathiasuy.md2.configuration.Properties;
 import mathiasuy.md2.model.Calc;
 
 public class InicioController implements Initializable  {
 
-    @FXML TextField txtResConjunto;
-    @FXML TextArea txtConsola;
-    @FXML TextField txtGeneradores;
-    @FXML TextField txtPares;
-    @FXML TextField txtFactoresPrimos;
-    @FXML TextField txtResMcd;
-    @FXML TextField txtOrden;
-    @FXML TextField txtResMcm;
-    @FXML CheckBox chkBox;
-    @FXML TextField txtN;
-    @FXML TextField txtResPhi;
-    @FXML TextField txtResCantidadGeneradores;
-    @FXML ListView<String> lstOrden;
+    @FXML private TextField txtResConjunto;
+    @FXML private TextField txtGeneradores;
+    @FXML private TextField txtPares;
+    @FXML private TextField txtFactoresPrimos;
+    @FXML private TextField txtResMcd;
+    @FXML private TextField txtResMcm;
+    @FXML private CheckBox chkBox;
+    @FXML private TextField txtN;
+    @FXML private TextField txtResPhi;
+    @FXML private TextField txtResCantidadGeneradores;
+    @FXML private ListView<String> lstConsole;
+    @FXML private ListView<String> lstOrden;
 	
 	private static Logger logger = LogManager.getLogger(InicioController.class);
-
-	
+		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		chkBox.setDisable(true);
+	    txtResConjunto.setEditable(false);
+	    txtGeneradores.setEditable(false);
+	    txtFactoresPrimos.setEditable(false);
+	    txtResMcd.setEditable(false);
+	    txtResMcm.setEditable(false);
+	    chkBox.setStyle("-fx-opacity: 1");
+	    chkBox.setDisable(true);
+	    txtResPhi.setEditable(false);
+	    txtResCantidadGeneradores.setEditable(false);		
+	    Calc.setInicioController(this);
 	}
 
-	public void setData(){
-		
+	public void appendLog(String text){
+		lstConsole.getItems().add("\n" + new Date().toGMTString()  + ": " + text);
+		logger.info(text);
 	}
 
 	@FXML public void calcularN() {
 		Integer n = Integer.valueOf(txtN.getText().trim());
 
 		//// FACTORES PIRMOS ////
+		appendLog("Factores primos: ");
 		List<Integer> primos = Calc.descomponerEnFactoresPrimos(n);
 		Map<Integer, Integer> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
 		
@@ -62,6 +74,7 @@ public class InicioController implements Initializable  {
 		}
 		if (verif.equals(Double.valueOf(n))) {
 			txtFactoresPrimos.setText(factores);
+			appendLog(factores);
 		}else {
 			txtFactoresPrimos.setText("Hubo un error en el calculo");
 		}
@@ -72,6 +85,7 @@ public class InicioController implements Initializable  {
 		txtResConjunto.setText(converToStringList(invertibles));
 		
 		///// CALCULO DE PHI ////////
+		appendLog("El valor de phi es " + invertibles.size());
 		txtResPhi.setText(String.valueOf(invertibles.size()));
 		
 		
@@ -88,7 +102,7 @@ public class InicioController implements Initializable  {
 			int cantGenerados = 0;
 			for (int k = 1; k < invertibles.size(); k++) { //evito el 1
 				int pot = 1;
-				while ( pot < 100 && Math.pow(invertibles.get(i), pot) % n != invertibles.get(k)) {
+				while ( pot < Properties.MAX_POW && Math.pow(invertibles.get(i), pot) % n != invertibles.get(k)) {
 					pot++;
 				}
 				if ( Math.pow(invertibles.get(i), pot) % n == invertibles.get(k)) {
@@ -127,9 +141,10 @@ public class InicioController implements Initializable  {
 		int i=0;
 		do {
 			i++;
-		} while (Math.pow(num, i)%n != 1 && i < 1000);	
+		} while (Math.pow(num, i)%n != 1 && i < Properties.MAX_POW);	
 		if (Math.pow(num, i)%n == 1) {
 			lstOrden.getItems().add(num + "^" + i + " = " + Math.pow(num, i) + " = " + Math.pow(num, i)%n + " mod(" + n + ")");
+			appendLog("En U("+n+"), el orden de "+num+" es " + i);
 		}
 	}
 
