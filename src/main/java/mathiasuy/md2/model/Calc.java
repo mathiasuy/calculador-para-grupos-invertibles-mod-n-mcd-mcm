@@ -109,7 +109,7 @@ public class Calc {
 		for (Integer item : coprimosMenores) {
 			for ( int i = 1; i <= Properties.MAX_POW; i++) {
 				if (Math.pow(item, i)%n == 1) {
-					Calc.inicioController.appendLog(Math.pow(item, i) + " = 1 mod(" + n + ") es verdadero");
+					Calc.inicioController.appendLog((int) Math.round(Math.pow(item, i)) + " = 1 mod(" + n + ") es verdadero");
 					encontrados.add(item);
 				}
 			}

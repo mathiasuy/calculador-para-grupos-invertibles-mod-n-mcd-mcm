@@ -34,6 +34,7 @@ public class InicioController implements Initializable  {
     @FXML private TextField txtResMcm;
     @FXML private CheckBox chkBox;
     @FXML private TextField txtN;
+    @FXML private TextField txtModN;
     @FXML private TextField txtResPhi;
     @FXML private TextField txtResCantidadGeneradores;
     @FXML private TextField txtResDivisores;
@@ -41,6 +42,9 @@ public class InicioController implements Initializable  {
     @FXML private ListView<String> lstConsole;
     @FXML private ListView<String> lstOrden;
     @FXML private Label lblEsRaiz;
+    @FXML private Label lblModN;
+    
+    public static final char POT = '^';
 	
 	private static Logger logger = LogManager.getLogger(InicioController.class);
 		
@@ -68,7 +72,7 @@ public class InicioController implements Initializable  {
 	}
 
 	@FXML public void calcularN() {
-		Integer n = Integer.valueOf(txtN.getText().trim());
+		Integer n = resolverPotencia(txtN.getText());
 
 		//// FACTORES PIRMOS ////
 		appendLog("Factores primos: ");
@@ -76,12 +80,12 @@ public class InicioController implements Initializable  {
 		Map<Integer, Integer> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
 		
 		String factores = "";
-		Double verif = 1.0;
+		int verif = 1;
 		for (Entry<Integer, Integer> entry : primosPotencias.entrySet()) {
-			factores += " " + entry.getKey() + "^"+ entry.getValue() + ", ";
-			verif *= Math.pow(entry.getKey(),entry.getValue());
+			factores += " " + entry.getKey() + POT+ entry.getValue() + ", ";
+			verif *= (int) Math.round(Math.pow(entry.getKey(),entry.getValue()));
 		}
-		if (verif.equals(Double.valueOf(n))) {
+		if (verif ==n.intValue()) {
 			txtFactoresPrimos.setText(factores);
 			appendLog(factores);
 		}else {
@@ -118,8 +122,8 @@ public class InicioController implements Initializable  {
 					cantGenerados++;
 					items.add(
 							invertibles.get(i) + "^" + pot + " = " + 
-									Math.pow(invertibles.get(i), pot)	+ " = " + 
-									Math.pow(invertibles.get(i), pot)%n + " mod(" + n + ")"
+									(int) Math.round(Math.pow(invertibles.get(i), pot))	+ " = " + 
+									(int) Math.round(Math.pow(invertibles.get(i), pot)%n) + " mod(" + n + ")"
 							);
 					encontrados.add(invertibles.get(k));
 				}
@@ -142,7 +146,7 @@ public class InicioController implements Initializable  {
 	}
 	
 	@FXML public void ordenEnN() {
-		Integer n = Integer.valueOf(txtN.getText().trim());
+		Integer n = resolverPotencia(txtN.getText());
 		List<Integer> invertibles = Calc.coprimosMenores(n);
 		lstOrden.getItems().clear();
 		for (Integer num : invertibles) {
@@ -151,8 +155,8 @@ public class InicioController implements Initializable  {
 	}
 	
 	@FXML public void verSiEsRaiz() {
-		Integer n = Integer.valueOf(txtN.getText().trim());
-		Integer num = Integer.valueOf(txtRaiz.getText());
+		Integer n = resolverPotencia(txtN.getText());
+		Integer num = resolverPotencia(txtRaiz.getText());
 		lblEsRaiz.setText(num+" " + (RaizPrmitiva.esRaiz(num,n)?"Es raíz":"No es raíz") + " de U("+n+")");
 	}
 	
@@ -162,7 +166,7 @@ public class InicioController implements Initializable  {
 			i++;
 		} while (Math.pow(num, i)%n != 1 && i < Properties.MAX_POW);	
 		if (Math.pow(num, i)%n == 1) {
-			lstOrden.getItems().add(num + "^" + i + " = " + Math.pow(num, i) + " = " + Math.pow(num, i)%n + " mod(" + n + ")");
+			lstOrden.getItems().add(num + "^" + i + " = " + (int) Math.round(Math.pow(num, i)) + " = " + (int) Math.round(Math.pow(num, i)%n) + " mod(" + n + ")");
 			appendLog("En U("+n+"), el orden de "+num+" es " + i);
 		}
 	}
@@ -184,14 +188,52 @@ public class InicioController implements Initializable  {
 		String numeros = txtPares.getText();
 		List<Integer> nums = new ArrayList<Integer>();
 		while (numeros.contains(",")) {
-			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length()).trim()));
+			nums.add(resolverPotencia(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length())));
 			numeros = numeros.substring(0, numeros.lastIndexOf(','));
 		}
-		nums.add(Integer.valueOf(numeros.trim()));
+		nums.add(resolverPotencia(numeros.trim()));
 		if (!nums.isEmpty()) {			
 			txtResMcd.setText(String.valueOf(Calc.mcd(nums)));
 		}
+	}
+
+	private List<Integer> pasarALista(char pivote, String txt){
+		String numeros = txt;
+		List<Integer> nums = new ArrayList<Integer>();
+		while (numeros.contains(pivote+"")) {
+			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(pivote)+1, numeros.length()).trim()));
+			numeros = numeros.substring(0, numeros.lastIndexOf(pivote));
+		}
+		nums.add(Integer.valueOf(numeros.trim()));
+		return nums;
+		}
+		
+	@FXML public void modN() {
+		appendLog("****SE SOILICITÓ CALCULAR EL MOD*****");
+		Integer n = resolverPotencia(txtN.getText());
+		Integer num = resolverPotencia(txtModN.getText());
+		modn(num,n);		
 	} 
+	
+	private Integer resolverPotencia(String text) {
+		List<Integer> lista = pasarALista(POT, text);
+		Collections.reverse(lista);
+		Integer res = lista.get(0);
+		Integer prod = 1;
+		for (int i = 1; i < lista.size(); i++) {
+			res = (int) Math.round(Math.pow(res, lista.get(i)));
+			prod *= lista.get(i);
+		}
+		if (lista.size() > 1) {
+			appendLog(lista.get(0) + POT + prod + " = " + res);
+		}
+		return res;
+	}
+	
+	private Integer modn(Integer num, Integer n) {	
+		appendLog(num + " = " + num%n + " mod("+n+")");
+		return num%n;
+	}
 	 
 	
 }

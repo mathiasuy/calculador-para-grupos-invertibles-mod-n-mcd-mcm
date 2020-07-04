@@ -37,15 +37,18 @@
       <Label layoutX="45.0" layoutY="159.0" prefHeight="15.0" prefWidth="34.0" text="PHI" />
       <TextField fx:id="txtFactoresPrimos" layoutX="515.0" layoutY="67.0" prefHeight="25.0" prefWidth="497.0" />
       <Label layoutX="310.0" layoutY="71.0" text="Descomposicion en factores primos" />
-      <Button layoutX="46.0" layoutY="366.0" mnemonicParsing="false" onAction="#ordenEnN" prefHeight="23.0" prefWidth="104.0" text="Orden en (n)" />
+      <Button layoutX="893.0" layoutY="353.0" mnemonicParsing="false" onAction="#ordenEnN" prefHeight="23.0" prefWidth="104.0" text="Orden en (n)" />
       <Label layoutX="17.0" layoutY="138.0" prefHeight="17.0" prefWidth="400.0" text="Si G es cíclico con n elementos, lacantidad de generadores que tiene es:" />
       <TextField fx:id="txtResRaicesPrimitivas" layoutX="161.0" layoutY="260.0" prefHeight="25.0" prefWidth="850.0" />
       <Label layoutX="14.0" layoutY="264.0" text="Las raíces primitivas son:" />
       <TextField fx:id="txtResDivisores" layoutX="195.0" layoutY="102.0" prefHeight="25.0" prefWidth="818.0" />
       <Label layoutX="17.0" layoutY="106.0" text="Los divisores primos de phi(n):" />
       <Label layoutX="14.0" layoutY="71.0" prefHeight="15.0" prefWidth="34.0" text="n=" />
-      <Button layoutX="46.0" layoutY="405.0" mnemonicParsing="false" onAction="#verSiEsRaiz" prefHeight="23.0" prefWidth="104.0" text="Ver si es raíz" />
-      <TextField fx:id="txtRaiz" layoutX="41.0" layoutY="438.0" prefHeight="25.0" prefWidth="113.0" />
-      <Label fx:id="lblEsRaiz" layoutX="45.0" layoutY="477.0" prefHeight="17.0" prefWidth="122.0" />
+      <Button layoutX="92.0" layoutY="366.0" mnemonicParsing="false" onAction="#verSiEsRaiz" prefHeight="25.0" prefWidth="88.0" text="Ver si es raíz" />
+      <TextField fx:id="txtRaiz" layoutX="17.0" layoutY="366.0" onAction="#verSiEsRaiz" prefHeight="25.0" prefWidth="68.0" />
+      <Label fx:id="lblEsRaiz" layoutX="37.0" layoutY="399.0" prefHeight="17.0" prefWidth="122.0" />
+      <TextField fx:id="txtModN" layoutX="17.0" layoutY="430.0" onAction="#modN" prefHeight="25.0" prefWidth="68.0" />
+      <Button layoutX="92.0" layoutY="430.0" mnemonicParsing="false" onAction="#modN" prefHeight="25.0" prefWidth="88.0" text="mod(n)" />
+      <Label fx:id="lblModN" layoutX="31.0" layoutY="461.0" prefHeight="17.0" prefWidth="122.0" />
    </children>
 </AnchorPane>
