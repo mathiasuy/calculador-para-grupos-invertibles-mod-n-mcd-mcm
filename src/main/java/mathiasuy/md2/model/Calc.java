@@ -18,13 +18,13 @@ public class Calc {
 	 * @param items
 	 * @return
 	 */
-	public static Integer mcd(List<Integer> items) {
+	public static Double mcd(List<Double> items) {
 
 		Collections.sort(items);
 
 		Calc.inicioController.appendLog("****MCD SOLICITADO: mcd("+String.valueOf(items) +")****");
-		int divisor = items.get(0);
-		for (Integer item : items) {
+		Double divisor = items.get(0);
+		for (Double item : items) {
 			 Calc.inicioController.appendLog("Se hallará mcd("+ divisor + "," + item + "): ");
 			divisor = mcd (divisor, item);
 		}
@@ -40,7 +40,7 @@ public class Calc {
 	 * @return
 	 */
 	private static String eucli = "Comienza alg de Euclides: ";
-	public static Integer mcd(Integer a, Integer b) {
+	public static Double mcd(Double a, Double b) {
 		 if (a == 0) {
 			 eucli += " mcd("+a+", "+b+") = "+ b;
 			 Calc.inicioController.appendLog(eucli);
@@ -55,7 +55,7 @@ public class Calc {
 			eucli += " mcd("+a+", "+b+") = 1";
 			 Calc.inicioController.appendLog(eucli);
 			eucli = "Comienza alg de Euclides: ";
-			return 1;
+			return 1.0;
 		}else if (a < b) {
 			eucli += " mcd("+a+", "+b%a+") = "; 
 			return mcd (a,b%a);
@@ -72,12 +72,12 @@ public class Calc {
 //	 * @param b
 //	 * @return
 //	 */
-//	public static Integer mcm(Integer a, Integer b) {
-//		Map<Integer, Integer> factA = interpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(a));
-//		Map<Integer, Integer> factB = interpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(b));
+//	public static Double mcm(Double a, Double b) {
+//		Map<Double, Double> factA = DoubleerpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(a));
+//		Map<Double, Double> factB = DoubleerpretarDescomponerEnFactoresPrimos(descomponerEnFactoresPrimos(b));
 //		
 //		
-//		for (Entry<Integer, Integer> entry : factA.entrySet()) {
+//		for (Entry<Double, Double> entry : factA.entrySet()) {
 //			if (factB.containsKey(entry.getKey()) && factB.get(entry.getKey()).equals(entry.getValue())) {
 //				//numeros comunes
 //			}
@@ -85,12 +85,11 @@ public class Calc {
 //		
 //	}
 	
-	public static List<Integer> coprimosMenores(Integer n) {
-		List<Integer> invertibles = new ArrayList<Integer>();
+	public static List<Double> coprimosMenores(Double n) {
+		List<Double> invertibles = new ArrayList<Double>();
 
 		 Calc.inicioController.appendLog(" ****SE SOLICITÓ HALLAR LOS FACTORES COPRIMOS DE " + n + "**** ");
-		invertibles.add(1);
-		for (int i = 2; i < n; i++) {
+		for (Double i = 1.0; i < n; i++) {
 			 Calc.inicioController.appendLog("Se hallará mcd("+ i + "," + n + "): ");
 			if (mcd(i,n)==1) {
 				invertibles.add(i);
@@ -100,16 +99,16 @@ public class Calc {
 		return invertibles;
 	}
 	
-	public static List<Integer> generadosPor(Integer g, Integer n, List<Integer> coprimosMenores) {
+	public static List<Double> generadosPor(Double g, Double n, List<Double> coprimosMenores) {
 		
-		List<Integer> encontrados = new ArrayList<Integer>();
+		List<Double> encontrados = new ArrayList<Double>();
 
 		 Calc.inicioController.appendLog(" ****SE SOLICITÓ HALLAR LOS GENERADORES DE " + String.valueOf(coprimosMenores) + "**** ");
 		Calc.inicioController.appendLog("Se probara con potencia hasta " + Properties.MAX_POW);
-		for (Integer item : coprimosMenores) {
-			for ( int i = 1; i <= Properties.MAX_POW; i++) {
+		for (Double item : coprimosMenores) {
+			for ( Double i = 1.0; i <= Properties.MAX_POW; i++) {
 				if (Math.pow(item, i)%n == 1) {
-					Calc.inicioController.appendLog((int) Math.round(Math.pow(item, i)) + " = 1 mod(" + n + ") es verdadero");
+					Calc.inicioController.appendLog(Math.round(Math.pow(item, i)) + " = 1 mod(" + n + ") es verdadero");
 					encontrados.add(item);
 				}
 			}
@@ -124,11 +123,11 @@ public class Calc {
 	 * @param valor Número de descomponer
 	 * @return Lista de factores primos.
 	 */
-	public static List<Integer> descomponerEnFactoresPrimos(int valor)
+	public static List<Double> descomponerEnFactoresPrimos(Double valor)
 	{
 		// Se empieza probando como posible factor primo el 2.
-		int factor = 2;
-		List<Integer> factores=new ArrayList<Integer>();
+		Double factor = 2.0;
+		List<Double> factores=new ArrayList<Double>();
 		 Calc.inicioController.appendLog(" ****SE SOLICITÓ HALLAR LOS FACTORES PRIMOS DE " + valor + "**** ");
 		Calc.inicioController.appendLog("Mientras es divisible, se añade el factor a la lista de factores primos y se realiza la división.");
 		while (factor <= valor)	{
@@ -148,15 +147,15 @@ public class Calc {
 		return factores;
 	}
 	
-	public static Map<Integer, Integer> interpretarDescomponerEnFactoresPrimos(List<Integer> lista)
+	public static Map<Double, Double> interpretarDescomponerEnFactoresPrimos(List<Double> lista)
 	{
-		Map<Integer, Integer> ret = new HashMap<Integer, Integer>();//primer elemento el numero, segundo su potencia
+		Map<Double, Double> ret = new HashMap<Double, Double>();//primer elemento el numero, segundo su potencia
 		
-		for (Integer item : lista) {
+		for (Double item : lista) {
 			if (ret.containsKey(item)) {
 				ret.put(item,ret.get(item)+1);
 			}else {
-				ret.put(item,1);
+				ret.put(item,1.0);
 			}
 		}
 

@@ -2,6 +2,7 @@ package mathiasuy.md2.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import mathiasuy.md2.configuration.Properties;
 import mathiasuy.md2.model.Calc;
@@ -72,18 +72,18 @@ public class InicioController implements Initializable  {
 	}
 
 	@FXML public void calcularN() {
-		Integer n = resolverPotencia(txtN.getText());
+		Double n = resolverPotencia(txtN.getText());
 
 		//// FACTORES PIRMOS ////
 		appendLog("Factores primos: ");
-		List<Integer> primos = Calc.descomponerEnFactoresPrimos(n);
-		Map<Integer, Integer> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
+		List<Double> primos = Calc.descomponerEnFactoresPrimos(n);
+		Map<Double, Double> primosPotencias = Calc.interpretarDescomponerEnFactoresPrimos(primos);
 		
 		String factores = "";
 		int verif = 1;
-		for (Entry<Integer, Integer> entry : primosPotencias.entrySet()) {
+		for (Entry<Double, Double> entry : primosPotencias.entrySet()) {
 			factores += " " + entry.getKey() + POT+ entry.getValue() + ", ";
-			verif *= (int) Math.round(Math.pow(entry.getKey(),entry.getValue()));
+			verif *=  Math.abs(Math.pow(entry.getKey(),entry.getValue()));
 		}
 		if (verif ==n.intValue()) {
 			txtFactoresPrimos.setText(factores);
@@ -94,7 +94,7 @@ public class InicioController implements Initializable  {
 		
 		///// CONJUNTO DE INVERTIBLES MOD N /////////
 		
-		List<Integer> invertibles = Calc.coprimosMenores(n);
+		List<Double> invertibles = Calc.coprimosMenores(n);
 		txtResConjunto.setText(converToStringList(invertibles));
 		
 		///// CALCULO DE PHI ////////
@@ -107,74 +107,73 @@ public class InicioController implements Initializable  {
 		
 		chkBox.setDisable(false);
 		Collections.sort(invertibles);
-		List<Integer> raicesPrimitivas = new ArrayList<Integer>();
-					List<Integer> encontrados = new ArrayList<Integer>();
-			
-		for (int i = 1; i < invertibles.size(); i++) {
-			List<String> items = new ArrayList<String>();
-			int cantGenerados = 0;
-			for (int k = 1; k < invertibles.size(); k++) { //evito el 1
-				int pot = 1;
-				while ( pot < Properties.MAX_POW && Math.pow(invertibles.get(i), pot) % n != invertibles.get(k)) {
-					pot++;
-				}
-				if ( Math.pow(invertibles.get(i), pot) % n == invertibles.get(k)) {
-					cantGenerados++;
-					items.add(
-							invertibles.get(i) + "^" + pot + " = " + 
-									(int) Math.round(Math.pow(invertibles.get(i), pot))	+ " = " + 
-									(int) Math.round(Math.pow(invertibles.get(i), pot)%n) + " mod(" + n + ")"
-							);
-					encontrados.add(invertibles.get(k));
-				}
-				
-			}
-			if (cantGenerados == invertibles.size()-1) {
-				raicesPrimitivas.add(invertibles.get(i));
-				lstOrden.getItems().add("--------------------");
-				lstOrden.getItems().addAll(items);
-				lstOrden.getItems().add("--------------------");
+		List<Double> generadores = new ArrayList<Double>();
+		chkBox.setSelected(!generadores.isEmpty());
+//		txtGeneradores.setText(converToStringList(raicesPrimitivas));
+		txtResCantidadGeneradores.setText(String.valueOf(Calc.coprimosMenores(Double.valueOf(invertibles.size())).size()) + " (si es cíclico)");
+		
+		generadores.clear();
+		for (int i = 0; i < invertibles.size(); i++) {
+			if (RaizPrmitiva.elementosQueGenera(invertibles.get(i), n).containsAll(invertibles)) {
+				appendLog("Coincide con U(n)");
+				generadores.add(invertibles.get(i));
+			}else {
+				appendLog("No coincide con U(n)");
 			}
 		}
-		chkBox.setSelected(!raicesPrimitivas.isEmpty());
-		txtGeneradores.setText(converToStringList(raicesPrimitivas));
-		txtResCantidadGeneradores.setText(String.valueOf(raicesPrimitivas.size()));
+		chkBox.setSelected(!generadores.isEmpty());
 		
-		txtResDivisores.setText(String.valueOf(RaizPrmitiva.getDivisoresPrimos(invertibles.size())));
-		txtResRaicesPrimitivas.setText(String.valueOf(RaizPrmitiva.hallarRaices(n)));
+		txtGeneradores.setText(String.valueOf(generadores));
+//		txtGeneradores.setText(String.valueOf(RaizPrmitiva.hallarRaices(n)));
+		
+		txtResDivisores.setText(String.valueOf(RaizPrmitiva.getDivisoresPrimos(Double.valueOf(invertibles.size()))));
+		List<Double> raices = RaizPrmitiva.hallarLasOtrasRaices(generadores, n);
+		txtResRaicesPrimitivas.setText(String.valueOf(raices) + " son ("+raices.size()+")");
 		
 	}
 	
 	@FXML public void ordenEnN() {
-		Integer n = resolverPotencia(txtN.getText());
-		List<Integer> invertibles = Calc.coprimosMenores(n);
+		Double n = resolverPotencia(txtN.getText());
+		List<Double> invertibles = Calc.coprimosMenores(n);
 		lstOrden.getItems().clear();
-		for (Integer num : invertibles) {
+		for (Double num : invertibles) {
 			ordenEnN(num, n);
 		}
 	}
 	
 	@FXML public void verSiEsRaiz() {
-		Integer n = resolverPotencia(txtN.getText());
-		Integer num = resolverPotencia(txtRaiz.getText());
-		lblEsRaiz.setText(num+" " + (RaizPrmitiva.esRaiz(num,n)?"Es raíz":"No es raíz") + " de U("+n+")");
+		Double n = resolverPotencia(txtN.getText());
+		Double num = resolverPotencia(txtRaiz.getText());
+		boolean es = false;
+		Collection<?> invertibles = Calc.coprimosMenores(n);
+		if (RaizPrmitiva.elementosQueGenera(num, n).containsAll(invertibles )) {
+			appendLog("Coincide con U(n)");
+			List<Double> generadores = new ArrayList<Double>();
+			generadores .add(num);
+			es = true;
+		}else {
+			appendLog("No coincide con U(n)");
+		}		
+		
+		lblEsRaiz.setText(num+" " + (es?"Es raíz":"No es raíz") + " de U("+n+")");
+//		lblEsRaiz.setText(num+" " + (RaizPrmitiva.esRaiz(num,n)?"Es raíz":"No es raíz") + " de U("+n+")");
 	}
 	
-	private void ordenEnN(Integer num, Integer n) {
+	private void ordenEnN(Double num, Double n) {
 		int i=0;
 		do {
 			i++;
 		} while (Math.pow(num, i)%n != 1 && i < Properties.MAX_POW);	
 		if (Math.pow(num, i)%n == 1) {
-			lstOrden.getItems().add(num + "^" + i + " = " + (int) Math.round(Math.pow(num, i)) + " = " + (int) Math.round(Math.pow(num, i)%n) + " mod(" + n + ")");
+			lstOrden.getItems().add(num + "^" + i + " = " +  Math.abs(Math.pow(num, i)) + " = " +  Math.abs(Math.pow(num, i)%n) + " mod(" + n + ")");
 			appendLog("En U("+n+"), el orden de "+num+" es " + i);
 		}
 	}
 
-	private String converToStringList(List<Integer> lista) {
+	private String converToStringList(List<Double> lista) {
 		String res = "{ ";
 		if (!lista.isEmpty()) {
-			for (int i = 0; i < lista.size()-1; i++) {
+			for (int i = 0; i < lista.size()-1; i++) {	
 				res += lista.get(i) + ", ";
 			}
 			res += lista.get(lista.size()-1) + " }";
@@ -186,7 +185,7 @@ public class InicioController implements Initializable  {
 	
 	@FXML public void calcularMcdMcm() {
 		String numeros = txtPares.getText();
-		List<Integer> nums = new ArrayList<Integer>();
+		List<Double> nums = new ArrayList<Double>();
 		while (numeros.contains(",")) {
 			nums.add(resolverPotencia(numeros.substring(numeros.lastIndexOf(',')+1, numeros.length())));
 			numeros = numeros.substring(0, numeros.lastIndexOf(','));
@@ -197,31 +196,31 @@ public class InicioController implements Initializable  {
 		}
 	}
 
-	private List<Integer> pasarALista(char pivote, String txt){
+	private List<Double> pasarALista(char pivote, String txt){
 		String numeros = txt;
-		List<Integer> nums = new ArrayList<Integer>();
+		List<Double> nums = new ArrayList<Double>();
 		while (numeros.contains(pivote+"")) {
-			nums.add(Integer.valueOf(numeros.substring(numeros.lastIndexOf(pivote)+1, numeros.length()).trim()));
+			nums.add(Double.valueOf(numeros.substring(numeros.lastIndexOf(pivote)+1, numeros.length())));
 			numeros = numeros.substring(0, numeros.lastIndexOf(pivote));
 		}
-		nums.add(Integer.valueOf(numeros.trim()));
+		nums.add(Double.valueOf(numeros.trim()));
+		Collections.reverse(nums);
 		return nums;
 		}
 		
 	@FXML public void modN() {
 		appendLog("****SE SOILICITÓ CALCULAR EL MOD*****");
-		Integer n = resolverPotencia(txtN.getText());
-		Integer num = resolverPotencia(txtModN.getText());
-		modn(num,n);		
+		Double n = resolverPotencia(txtN.getText());
+		Double num = resolverPotencia(txtModN.getText());
+		lblModN.setText(String.valueOf(modn(num,n)) + " mod("+n+")");		
 	} 
 	
-	private Integer resolverPotencia(String text) {
-		List<Integer> lista = pasarALista(POT, text);
-		Collections.reverse(lista);
-		Integer res = lista.get(0);
-		Integer prod = 1;
+	private Double resolverPotencia(String text) {
+		List<Double> lista = pasarALista(POT, text);
+		Double res = lista.get(0);
+		Double prod = 1.0;
 		for (int i = 1; i < lista.size(); i++) {
-			res = (int) Math.round(Math.pow(res, lista.get(i)));
+			res = Math.pow(res, lista.get(i));
 			prod *= lista.get(i);
 		}
 		if (lista.size() > 1) {
@@ -230,7 +229,7 @@ public class InicioController implements Initializable  {
 		return res;
 	}
 	
-	private Integer modn(Integer num, Integer n) {	
+	private Double modn(Double num, Double n) {	
 		appendLog(num + " = " + num%n + " mod("+n+")");
 		return num%n;
 	}
