@@ -92,7 +92,7 @@ public class RaizPrmitiva {
 	public static List<Double> hallarLasOtrasRaices(List<Double> primera, Double n) {
 		List<Double> lista = new ArrayList<Double>();
 		List<Double> invertibles = Calc.coprimosMenores(Double.valueOf(Calc.coprimosMenores(n).size()));
-		invertibles.remove(1.0);
+//		invertibles.add(1.0);	
 		for (Double a : invertibles) {
 			for (Double item : primera) {
 				if (!lista.contains(Math.pow(item, a)%n)) {
