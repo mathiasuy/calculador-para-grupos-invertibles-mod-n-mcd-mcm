@@ -21,14 +21,14 @@
       <ListView fx:id="lstConsole" layoutX="17.0" layoutY="537.0" prefHeight="177.0" prefWidth="995.0" />
       <Label layoutX="17.0" layoutY="514.0" text="Consola:" />
       <TextField fx:id="txtGeneradores" layoutX="163.0" layoutY="295.0" prefHeight="25.0" prefWidth="850.0" />
-      <TextField fx:id="txtPares" layoutX="20.0" layoutY="24.0" prefHeight="25.0" prefWidth="394.0" />
+      <TextField fx:id="txtPares" layoutX="20.0" layoutY="24.0" onAction="#calcularMcdMcm" prefHeight="25.0" prefWidth="394.0" />
       <Button layoutX="445.0" layoutY="24.0" mnemonicParsing="false" onAction="#calcularMcdMcm" text="Calcular! &gt;" />
       <TextField fx:id="txtResMcd" layoutX="582.0" layoutY="27.0" prefHeight="23.0" prefWidth="172.0" />
       <TextField fx:id="txtResMcm" layoutX="825.0" layoutY="27.0" prefHeight="23.0" prefWidth="172.0" />
       <Label layoutX="532.0" layoutY="31.0" prefHeight="15.0" prefWidth="34.0" text="MCD" />
       <Label layoutX="775.0" layoutY="31.0" prefHeight="15.0" prefWidth="34.0" text="MCM" />
       <CheckBox fx:id="chkBox" layoutX="269.0" layoutY="159.0" mnemonicParsing="false" text="Es cíclico" />
-      <TextField fx:id="txtN" layoutX="46.0" layoutY="67.0" prefHeight="25.0" prefWidth="113.0" />
+      <TextField fx:id="txtN" layoutX="46.0" layoutY="67.0" onAction="#calcularN" prefHeight="25.0" prefWidth="113.0" />
       <TextField fx:id="txtResPhi" layoutX="79.0" layoutY="155.0" prefHeight="23.0" prefWidth="172.0" />
       <Label layoutX="17.0" layoutY="336.0" prefHeight="15.0" prefWidth="169.0" text="El orden de cada elemento es:" />
       <TextField fx:id="txtResCantidadGeneradores" layoutX="560.0" layoutY="155.0" prefHeight="25.0" prefWidth="452.0" />
