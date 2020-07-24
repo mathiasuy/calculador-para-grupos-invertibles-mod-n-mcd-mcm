@@ -13,6 +13,27 @@ public class Calc {
 	
 	private static InicioController inicioController;
 
+
+	public static Double mcm(List<Double> nums) {
+
+		Collections.sort(nums);
+
+		Calc.inicioController.appendLog("****MCM SOLICITADO: mcd("+String.valueOf(nums) +")****");
+		Double divisor = nums.get(0);
+		for (Double item : nums) {
+			 Calc.inicioController.appendLog("Se hallará mcm("+ divisor + "," + item + "): ");
+			divisor = mcm (divisor, item);
+		}
+		 Calc.inicioController.appendLog("El resultado es " + divisor);
+		
+		return divisor;
+		
+	}	
+	
+	public static double mcm(Double num1, Double num2) {
+		return Math.abs(num1*num2)/mcd(num1,num2);
+	}	
+	
 	/**
 	 * Calcula el mcd de todos los elementos de la lista
 	 * @param items
@@ -165,5 +186,6 @@ public class Calc {
 	public static void setInicioController(InicioController inicioController) {
 		Calc.inicioController = inicioController;
 	}
+
 	
 }

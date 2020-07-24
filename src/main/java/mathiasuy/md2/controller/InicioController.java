@@ -193,6 +193,7 @@ public class InicioController implements Initializable  {
 		nums.add(resolverPotencia(numeros.trim()));
 		if (!nums.isEmpty()) {			
 			txtResMcd.setText(String.valueOf(Calc.mcd(nums)));
+			txtResMcm.setText(String.valueOf(Calc.mcm(nums)));
 		}
 	}
 
